@@ -1,0 +1,429 @@
+---
+title: "How to Save Your Heart? Diet!! Diet! Diet?"
+author: "Ankit Jhurani – 1003697065"
+date: "21/06/2021"
+output: pdf_document
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(MatchIt)
+library(readxl)
+library(tidyverse)
+```
+
+\newpage
+
+# Abstract
+
+*Background:*
+
+Coronary heart disease (CHD) is the leading cause of mortality in all over the world. Dietary pattern have been showed to be statistically significant risk factors for increasing prevalence of coronary heart diseases (CHD). We aimed to evaluate diet and their significant association with CHD. (Gaziano et al., 2011)
+
+*Methods:*
+
+Data collection was done by R software Diet and heart data free access to use. We designed a case–control propensity matched pair study. All cases were clinical suspicion of coronary artery disease were enrolled. Data was collected using interview-based questionnaires. Multivariate logistic regression was used to estimate the relationship between dietary choices and CHD. All analysis were performed using Statistical analyses were performed using R version 4.1.0, matchIt packages from the Comprehensive R Archive Network (R Core team, 2019).
+
+*Results:*
+
+Healthy diet was not associated with a significant decrease in the odds of CHD. There was no significant association between number of years at risk, status on exit, occupation month of dietary survey, total energy intake (kCal per day/100), height(cm), weight(kg), fat intake (10 g/day), dietary fibre intake (10 g/day), high daily energy intake and outcome CHD event. Our study resulted that, the dietary pattern was not associated with CHD. 
+
+*Conclusion:*
+
+Despite these limitations, our study study was conducted to investigate the relationship between different dietary patterns and CHD. Study concluded that, healthy diet is not important to reduce the risk of CHD, as well as in the management of CVD.
+
+Keywords:  diet; coronary heart disease; Risk factors; propensity matched
+
+\newpage
+
+# Introduction
+
+An organ the size of your fist dictates your life and one day your life could just stop. You would cease to exist. The disease associated with the heart is known as Coronary Heart Disease (CHD). It occurs commonly due to buildup of plaque inside the lining of larger arteries. ("Coronary artery disease | cdc.gov," 2019) Symptoms may be different from person to person even if they have the same type of coronary heart disease. However, many people have no symptoms, they do not know they have the disease until they have chest pain, a heart attack, or a sudden cardiac arrest. ("Coronary artery disease | cdc.gov," 2019)
+
+This disease is often associated with extremely poor diet plans, obesity, and smokers.("Understand your risks to prevent a heart attack," 2016) However, many a time we might see patients that have had no history of it face a sudden cardiac arrest. This is extremely unfortunate and in the world of professional sports it could put a full stop on a player’s career. For this reason, this paper is dedicated to Danish footballer Christian Eriksen that collapsed during a Euro 2020 game against Finland on Saturday the 12th of June 2021. (Norgaard & Eoineeney, 2021) A footballer with 10 years in the game and a resume that would get a standing ovation faced a cardiac arrest while passing the ball to his teammate. 
+
+It is becoming an increasing cause of mortality and morbidity all over the world. As per World health organization current WHO report estimated 17.9 million deaths each year. (WHO, 2019) Cardiovascular Disease (CVD) patients that died in 2019 were representing 32% of all global deaths. Major reasons for deaths were due to stroke and heart attack. (WHO, 2017) Out of 32% these deaths, an estimated 7.4 million was due to CHD. As reference data reported by the Nurses’ Health Studies or nursing diet related studies indicates that approximately 80% of CHD incidence could be prevented by consuming a healthful diet. Also, studies were reported physical activity for at least 30 min helps to reduce risk of CHD. (Sun Q, et al., 2016)
+
+The data that was collected by R software: Diet and heart data, it free access and analyze. ("Diet: Diet and heart data in Epi: Statistical analysis in epidemiology," 2021)   In this paper we designed a case–control propensity matched pair study. All cases where clinical suspicion of coronary artery disease was enrolled from interview-based questionnaires. To work around this disease and to be ahead of it is by being conscientious about the food we eat and our daily exercise rate that keeps the flow of blood consistent. The aim of this study was to look for association between major dietary patterns and Coronary Heart Disease. 
+
+The data provides this information after we tidy it. Data sourced from the internet for free tend to have discrepancies at first glance. Therefore, we use tidyverse to make the data more useful for out analysis. By understanding this clean data, we use the propensity score matching method to generate cases and controls. For case-control studies, PSM is convenient for matching when a lot of covariates must be taken into consideration. (Xia et al., 2016) We continue down this methodology and compile our results to find significant associations between diet and CHD. This is followed by an evaluation of the study which discusses the shortcomings of the research. We then conclude from our findings by balancing out the bias and the associations in the study.
+
+\newpage
+
+# Data
+
+The data used for this study is the diet data set. Data collection was done by R software Diet and heart data which is a free to access. ("Diet: Diet and heart data in Epi: Statistical analysis in epidemiology," 2021)   We designed a case-control propensity matched pair study. All cases that were enrolled for this study were clinically suspicion of coronary artery disease. This data is observational and was collected using interview based questionnaires. Multivariate logistic regression was used to estimate the relationship between dietary choices and CHD. All analysis were performed using Statistical analyses were performed using R version 4.1.0, matchIt packages from the Comprehensive R Archive Network (R Core team, 2019).
+
+
+*-	Data Description*
+
+A total of 337 total entries in diet data and 14 variables. The data concern a subsample of subjects drawn from larger cohort studies of the incidence of coronary heart disease (CHD). These subjects had all completed a 7-day weighed dietary survey while taking part in validation studies of dietary questionnaire methods. Upon the closure of the MRC Social Medicine Unit, from where these studies were directed, it was found that 46 CHD events had occurred in this group, thus allowing a serendipitous study of the relationship between diet and the incidence of CHD. ("Diet: Diet and heart data in Epi: Statistical analysis in epidemiology," 2021) 
+
+In a general study, propensity score can be estimated using a logistic regression model with the study data, in which patient with CHD status is regressed on observed baseline characteristics. Thus, in the final matched samples, the distributions of these confounding factors were similar between case group and control group. A case–control study was designed to understand associations between diet patterns and the incidence of CHD. Data was collected using interview-based questionnaires.
+
+The data contains,
+
+    id:	subject identifier, a numeric vector.
+    
+    doe:	date of entry into follow-up study, a Date variable.
+    
+    dox:	date of exit from the follow-up study, a Date variable.
+    
+    dob:	date of birth, a Date variable.
+    
+    y:	number of years at risk, a numeric vector.
+    
+    fail:	status on exit, a numeric vector (codes 1, 3 and 13 represent CHD events)
+    
+    job:	occupation, a factor with levels Driver Conductor Bank worker
+    
+    month:	month of dietary survey, a numeric vector
+    
+    energy:	total energy intake (kCal per day/100), a numeric vector
+    
+    height:	(cm), a numeric vector
+    
+    weight:	(kg), a numeric vector
+    
+    fat:	fat intake (10 g/day), a numeric vector
+    
+    fibre:	dietary fibre intake (10 g/day), a numeric vector
+    
+    energy.grp:	high daily energy intake, a factor with levels <=2750 KCal >2750 KCal
+    
+    chd:	CHD event, a numeric vector (1=CHD event, 0=no event)
+    
+    
+("Diet: Diet and heart data in Epi: Statistical analysis in epidemiology," 2021) 
+
+  Here, we load the "CHD_DATA" into R environment using read.csv() function and we will clean the data if any null values exists.
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, include=FALSE}
+library(tidyverse)
+library(broom) 
+library(MatchIt)
+library(modelsummary)
+#Loading_data#
+data<- read.csv("Data_diet_CHD.csv")
+```
+
+$\\$
+
+$\\$
+
+```{r}
+head(data)
+```
+
+```{r}
+colSums(is.na(data))
+```
+
+```{r}
+data = data %>% drop_na
+colSums(is.na(data))
+```
+
+$\\$
+
+$\\$
+
+## Cleaning Process
+
+This dataset did not have many missing pieces because of the logistics of the case study which was very selective and included an observational interview which was filled into a questionnaire. Therefore, we use a simple *drop_na* function to eradicate missing data points from the dataset. 
+
+## Important Variables 
+
+After tidying the data, we understand that not all 14 variables are important for this analysis. From this and our variable description table made above we select eleven different variables as important ones for this analysis.
+
+#### Summary Statistics
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+summary(data)
+```
+
+```{r}
+data %>% 
+  ggplot(mapping=aes(x = y,
+             y = chd, color=chd)) + 
+  geom_point(size=0.5,alpha=0.5,position = position_jitter()) +
+  labs(x = "energy",
+       y = "chd")
+```
+
+We see from the summary of the data that it is scattered and to visually prove it we can see from the graph that it is scattered indeed. Therefore, our data is not concise and needs further analysis to make sense off. 
+
+These variables are: 
+Chd, y, fail, job, month, energy, height, weight, fat, fibre and energy.grp. We chose these variables because of the data stored in them. We will use these variables to make a treatment population and a control population. We get the dimensions of our treatment and control population. There are 179 treated and 149 control records. 
+
+#### The Treatment and Control Population
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+# The treatment population
+data=data[,c("chd","y", "fail","job","month","energy","height", "weight","fat","fibre","energy.grp")]
+data$energy.grp <- ifelse(data$energy.grp == ">2750 KCals",1,0)
+data$job = as.integer(as.factor(data$job))
+Treats <- subset(data,  energy.grp == 1)
+colMeans(Treats)
+# The control population
+Control <- subset(data, energy.grp == 0)
+colMeans(Control)
+dim(Treats)
+dim(Control)
+
+```
+
+\newpage
+
+# Methods - Model
+
+The goal of this research paper is to understand Dietary patterns and the risk of coronary heart disease (CHD) using a case–control propensity matched pair study. 
+
+Propensity Score Matching (PSM) is a popular approach which estimates casual treatment effects by assigning some probability to each observation. It is commonly used when evaluating labour market policies. (Stuart, 2010) It allows one to design and analyze an observational study so that it mimics some of the characteristics of a randomized controlled trial. The upside of using such a methodology is that it allows us to easily consider many independent variables at once, and it can be constructed using logistic regression. (Stuart, 2010) 
+
+In this paper, we estimate the propensity score by running a logit model where the outcome variable is a binary variable indicating patient with CHD or non-CHD. Propensity Score Matching is used on this observational study as a cross-sectional study. It aids in removing the selection bias between the cases between treatment and the control groups. PSM is an alternative method to reduce selection bias and refers to the pairing of patients with CHD and control units with similar values on the propensity score. Furthermore, it discards all unmatched units. 
+
+If we want to find out the real impact of the CHD
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+model_1 = lm(chd ~ energy.grp+y+ fail+job+month+energy+height+ weight+fat+fibre,data=data)
+model_1
+Effect = model_1$coeff[2] 
+Effect
+```
+
+-	Model_1: we make a model to find out the real impact of CHD. 
+
+The model above shows that the energy group had a 3.22% negative effect on the Coronary heart disease.
+
+
+Methods of Performing Propensity Score Matching
+-	Assign the observations into two groups: the patient with CHD group that received the patient with CHD and the control group that did not.
+-	Patient with CHD, D is a binary variable that determines if the observation has the patient with CHD or not.
+-	D = 1 for CHD observations and D = 0 for control observations.
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+pscores.model <- glm(energy.grp ~ height + weight + fat + fibre ,family = binomial("logit"),data = data)
+summary(pscores.model)
+Propensity_scores <- pscores.model
+data$PScores <- pscores.model$fitted.values
+hist(data$PScores[data$energy.grp == 1],main = "PScores of Response = 1")
+hist(data$PScores[data$energy.grp == 0],main = "PScores of Response = 0")
+```
+
+### Creating a Tableone pre-matching table
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+#covariates we are using
+xvars = c("height", "weight","fat","fibre")
+library(tableone)
+table1 = CreateTableOne(vars = xvars,strata = "energy.grp",data = data, test = FALSE)
+```
+
+We will use the *tableone* package to summarize the data using the covariates that we stored in *xvars*. We are going to stratify the response variable, i.e., we will check the balance in the dataset among the people who responded (treatment group) and who did not respond (control group) to the energy. The ‘test = False’ states that we don’t require a significance test; instead we just want to see the mean and standard deviation of the covariates in the results.
+
+Then we are going to print the statistics and see the Standardized Mean Differences (SMD) in the variables.
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+print(table1, smd = TRUE)
+```
+
+Here we see the summary statistics of the covariates, we can see that in the control group there are 149 subjects and in the treatment group there are 179 subjects. It also shows the mean and standard deviations of these variables. In the last column we can see the SMD, here we should be careful about SMDs which are greater than 0.1 because those are the variables which shows imbalance in the dataset and that is where we need to do propensity score matching. As stated in the example here, as it is a simulated data set of just 328 records and containing only 2 covariates, we don’t see any imbalance, but we will still go ahead with the matching and see the difference in the results.
+
+### Matching Algorithms
+
+There are various matching algorithms in R, namely, exact matching, nearest neighbor, optimal matching, full matching, and caliper matching.
+
+Let us try the Nearest Neighbor Matching. It is an algorithm that matches individuals with controls (it could be two or more controls per treated unit) based on a distance. 
+
+```{r echo=FALSE, warning=FALSE, include=FALSE}
+library(MatchIt)
+match1 <- matchit(energy.grp ~ height + weight + fat + fibre ,
+                  data = data,
+                  method = "nearest",
+                  radio=1)
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, include=FALSE}
+match1.data <- match.data(match1)
+#View(match1.data)
+```
+
+Here we can see that at least one person in the treatment group (energy.grp = 1) has been matched with one person in the control group (energy.grp = 0).
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+plot(match1, type="jitter")
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+plot(match1, type="hist")
+```
+
+### Create the *tableone* for nearest matching
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+table_match1 <- CreateTableOne(vars = xvars,strata = "energy.grp",data = match1.data,test = FALSE)
+print(table_match1, smd = TRUE)
+```
+
+We see above is that we matched 149 controls to 149 treated subjects and also, we can see we get very small numbers for SMD in the covariates, hence we can conclude that we did a pretty good job of matching with nearest neighbor. We have a great balance in the dataset now to proceed with our further analysis.
+
+\newpage
+
+# Results
+
+Propensity matched pair analysis were done by using following factors:
+
+
+    id:	subject identifier, a numeric vector.
+    
+    doe:	date of entry into follow-up study, a Date variable.
+    
+    dox:	date of exit from the follow-up study, a Date variable.
+    
+    dob:	date of birth, a Date variable.
+    
+    y:	number of years at risk, a numeric vector.
+    
+    fail:	status on exit, a numeric vector (codes 1, 3 and 13 represent CHD events)
+    
+    job:	occupation, a factor with levels Driver Conductor Bank worker
+    
+    month:	month of dietary survey, a numeric vector
+    
+    energy:	total energy intake (kCal per day/100), a numeric vector
+    
+    height:	(cm), a numeric vector
+    
+    weight:	(kg), a numeric vector
+    
+    fat:	fat intake (10 g/day), a numeric vector
+    
+    fibre:	dietary fibre intake (10 g/day), a numeric vector
+    
+    energy.grp:	high daily energy intake, a factor with levels <=2750 KCal >2750 KCal
+    
+    chd:	CHD event, a numeric vector (1=CHD event, 0=no event)
+    
+
+
+We will now do a t test to test our hypothesis that there is a chance of getting CHD of person when the person consumes high energy.However, before performing a paired t-test we will have to create two subsets from the matched data, one for treatment and other for control groups.
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+y_trt <- match1.data$chd[match1.data$energy.grp == 1]
+y_con <- match1.data$chd[match1.data$energy.grp == 0]
+```
+
+Next we will calculate a pairwise difference of the two subsets.
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+difference <- y_trt - y_con
+```
+
+Then we will perform a paired t-test on the difference, a paired t-test is just a regular t test on the difference in the outcome of the matched pairs.
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+t.test(difference)
+```
+
+From the results above we see a very very small p-value that makes the model highly significant.
+
+The point estimate (mean) is -0.087, that means the difference in probability of getting CHD when everyone responds to the energy versus when no one responds is 0.087 ( in other words there are 8%  chances of getting CHD when a person responds to the high energy group).
+
+```{r include=FALSE}
+library(readr)
+Matched_data <- read_csv("Matched_data.csv")
+head(Matched_data)
+```
+
+
+
+```{r include=FALSE}
+mylogit <- glm(chd~ y+ fail+job+month+energy+height+ weight+fat+fibre+energy.grp, data = Matched_data, family = "binomial")
+mylogit
+summary(mylogit)
+exp(cbind(OR = coef(mylogit), confint(mylogit)))
+
+```
+
+There was no significant association between number of years at risk, status on exit, occupation month of dietary survey, total energy intake (kCal per day/100), height(cm), weight(kg), fat intake (10 g/day), dietary fiber intake (10 g/day), high daily energy intake and outcome CHD event.
+Our study resulted that, the dietary pattern was not associated with CHD. 
+
+\newpage
+
+# Discussion
+
+Our study data on associations between dietary pattern and CVD is needed. This study was conducted to find out association between “Healthy” dietary pattern protect against CVD risk and mortality. Recently, reported research data from various research paper, mostly from indicates about 20% - 30% lower odds of reporting CHD in the highest compared with the lowest categories of healthy dietary patterns. (Rodríguez-Monforte et al., 2015)  The no reduction in odds of CHD observed in our analysis is inconsistent with previous observational studies. Interventions studies were done with the healthy diet reduced CVD clinical events by 38% compared to control. (Martinez-Gonzalez et al., 2014) A with reference studies healthy dietary pattern is also most important for the secondary prevention of CHD. (Stewart et al., 2016) In our study healthy diet pattern may not help in preventing a second CVD event in our cases.
+
+Similar studies were done, with study design observational from Pakistan (Iqbal et al., 2015) and Iran. (Mohammadifard N et al., 2017) These studies were showed healthy diet pattern were significantly associated dietary CVD mortality or risk. Even, a study from conducted in Japan was found an inverse relationship between a health dietary pattern and CVD mortality. (Nanri A et al., 2017)
+
+This study has lot of the limitations, mainly that as in any case-control study it was subject to recall bias in the dietary assessment. In addition, we used subset of the data set. Hence, other observational studies should be planning to find out role of dietary pattern in the developing of CHD. Finally, this study was carried for large hospital setting and we recommended future population-based studies are necessary to assess generalizability of the findings.
+
+Furthermore, propensity score matching is not the best method to run matching even though it is an increasingly popular method of processing data for casual inference. It sometimes accomplishes the opposite of its intended study. The weakness of PSM comes from its attempts to approximate a completely randomized experiment. Approximating a fully blocked randomized experiment can be substantially better. This is because PSM discards information and thus causes an increasing imbalance, model dependence, researcher discretion, and bias. (King & Nielsen, 2021)
+
+\newpage
+
+# Conclusion
+
+Despite these limitations, our study study was conducted to investigate the relationship between different dietary patterns and CHD. Study concluded that, healthy diet is not important to reduce the risk of CHD, as well as in the management of CVD.
+
+\newpage
+
+
+# Bibliography
+
+
+1.	Gaziano,, T. A., Bitton, A., Anand, S., Gessel, S. A., & Murphy, A. (2011, February). Growing epidemic of coronary heart disease in low- and middle-income countries. PubMed Central (PMC). https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2864143/
+
+2.	Coronary artery disease | cdc.gov. (2019, December 9). Centers for Disease Control and Prevention. https://www.cdc.gov/heartdisease/coronary_ad.htm
+
+3.	Understand your risks to prevent a heart attack. (2016, June 30). www.heart.org. https://www.heart.org/en/health-topics/heart-attack/understand-your-risks-to-prevent-a-heart-attack
+
+4.	Norgaard, K., & Eoineeney. (2021, June 13). Christian Eriksen suffered cardiac arrest during euros match, doctor says. CTVNews. https://www.ctvnews.ca/sports/christian-eriksen-suffered-cardiac-arrest-during-euros-match-doctor-says-1.5468548
+
+5.	WHO. (2019, June 11). Cardiovascular diseases. https://www.who.int/health-topics/cardiovascular-diseases/#tab=tab_1
+
+6.	WHO. (2017, May 17). Cardiovascular diseases (CVDs). WHO | World Health Organization. https://www.who.int/en/news-room/fact-sheets/detail/cardiovascular-diseases-(cvds)
+
+7.	Diet: Diet and heart data in Epi: Statistical analysis in epidemiology. (2021, April 5). R Package Documentation. https://rdrr.io/rforge/Epi/man/diet.html#heading-2
+
+8.	Yu E, Rimm E, Qi L, Rexrode K, Albert CM, Sun Q, et al. Diet, lifestyle, biomarkers, genetic factors, and risk of cardiovascular disease in the Nurses’ Health Studies. Am J Public Health 2016 Sep; 106(9):1616e23
+
+9.	Xia, Y., Wang, N., & Niu, K. (2016, August 19). Dietary patterns are associated with depressive symptoms among Chinese adults: A case–control study with propensity score matching. European Journal of Nutrition. https://link.springer.com/article/10.1007/s00394-016-1293-y
+
+10.	Stuart, E. A. (2010, February 1). Matching methods for causal inference: A review and a look forward. PubMed Central (PMC). https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2943670/
+
+11.	Rodríguez-Monforte M, Flores-Mateo G, Sánchez E. Dietary patterns and CVD: a systematic review and meta-analysis of observational studies. Br J Nutr 2015 Nov;114(9):1341e59.
+
+12.	Martinez-Gonzalez MA, Bes-Rastrollo M. Dietary patterns, mediterranean diet, and cardiovascular disease. Curr Opin Lipidol 2014; 25(1):20e6
+
+13.	Stewart RAH, Wallentin L, Benatar J, Danchin N, Hagström E, Held C, et al. Dietary patterns and the risk of major adverse cardiovascular events in a global study of high-risk patients with stable coronary heart disease. Eur Heart J 2016 Jul;37(25): 1993e2001.
+
+14.	Iqbal R, Iqbal SP, Yakub M, Tareen AK, Iqbal MP. Major dietary patterns and risk of acute myocardial infarction in young, urban Pakistani population. Pak J Med Sci 2015;31(5):1213e8.
+
+15.	Mohammadifard N, Talaei M, Sadeghi M, Oveisegharan S, Golshahi J, Esmaillzadeh A, et al. Dietary patterns and mortality from cardiovascular disease: isfahan cohort study. Eur J Clin Nutr 2017 Feb;71(2):252e8.
+
+16.	Nanri A, Mizoue T, Shimazu T, Ishihara J, Takachi R, Noda M, et al. Dietary patterns and all-cause, cancer, and cardiovascular disease mortality in Japanese men and women: the Japan public health center-based prospective studyZeeb H, editor. PLoS One 2017 Apr; 12(4), e0174848.
+
+17.	King, G., & Nielsen, R. (2021, April 27). Why Propensity Scores Should Not Be Used for Matching. GARY KING. https://gking.harvard.edu/files/gking/files/pan1900011_rev.pdf
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
